@@ -34,6 +34,11 @@
   ul.list li { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; cursor:pointer; }
   ul.list li .t { font-weight:600; }
   .actions { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
+  .steps { margin:14px 0 0; padding-left:22px; font-size:16px; }
+  .steps li { margin-bottom:4px; }
+  .qr { background:#fff; border-radius:16px; padding:10px; width:min(78vw, 300px); aspect-ratio:1; margin:18px auto 8px; display:flex; align-items:center; justify-content:center; color:#777; font-size:15px; }
+  .qr svg { width:100%; height:100%; display:block; }
+  .qr-tip { text-align:center; }
   #v-site { position:fixed; inset:0; max-width:none; margin:0; padding:0; background:var(--bg); }
   #site { position:absolute; left:0; right:0; bottom:0; top:env(safe-area-inset-top); width:100%; height:calc(100% - env(safe-area-inset-top)); border:0; background:#fff; }
   #menu-btn { position:fixed; left:12px; bottom:calc(env(safe-area-inset-bottom) + 12px); width:46px; height:46px; padding:0; border-radius:50%; background:var(--accent); color:#fff; border:0; font-size:22px; opacity:.88; z-index:20; box-shadow:0 2px 8px rgba(0,0,0,.25); }
@@ -60,6 +65,21 @@
     <button type="submit">Сохранить</button>
     <div class="err" id="setup-err"></div>
   </form>
+</section>
+
+<section id="v-qr" class="view" hidden>
+  <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
+  <h1>Вход в Telegram</h1>
+  <div class="sub" id="qr-note"></div>
+  <ol class="steps">
+    <li>На телефоне открой Telegram → <b>Настройки</b> → <b>Устройства</b>.</li>
+    <li>Нажми <b>«Подключить устройство»</b> и наведи камеру на код.</li>
+  </ol>
+  <div id="qr-box" class="qr"></div>
+  <div class="sub qr-tip">Код сам меняется каждые полминуты — это нормально.</div>
+  <div class="actions">
+    <button id="qr-phone" class="plain" type="button">Войти по номеру и коду</button>
+  </div>
 </section>
 
 <section id="v-login" class="view" hidden>
