@@ -3,33 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Счастье шить</title>
+<title>Мои сайты</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Счастье шить">
+<meta name="apple-mobile-web-app-title" content="Мои сайты">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#8f3b5c">
+<meta name="theme-color" content="#fbf1d6">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' wss://*.web.telegram.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; media-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>
-  :root { --bg:#fbf7f4; --fg:#3b2f33; --muted:#7a6f73; --card:#fff; --line:#e7dfdc; --accent:#8f3b5c; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#1d1719; --fg:#f3ecee; --muted:#b3a7ab; --card:#2a2124; --line:#3b3034; --accent:#c9738f; } }
+  :root { --bg:#fbf3da; --fg:#1c2a4f; --muted:#667089; --card:#fffbee; --line:#eadcb0; --accent:#2b4a7a; --on-accent:#fffaea; --gold:#b4862a; --paper:#fffbee; --paper-ink:#3a3331; --serif:"Didot","Bodoni 72","Baskerville","Georgia",serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1a36; --fg:#f6ebcb; --muted:#aab3cf; --card:#15244a; --line:#2a3b6a; --accent:#e0b95e; --on-accent:#16203a; --gold:#e0b95e; --paper:#172750; --paper-ink:#f6ebcb; } }
   * { box-sizing:border-box; }
   html, body { height:100%; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.45 -apple-system, system-ui, sans-serif; }
+  body { margin:0; background:radial-gradient(900px 420px at 50% -120px, rgba(224,185,94,.16), transparent 70%), var(--bg); color:var(--fg); font:17px/1.45 -apple-system, "SF Pro Text", system-ui, sans-serif; }
   .view { max-width:520px; margin:0 auto; padding:calc(env(safe-area-inset-top) + 20px) 18px 28px; }
   .view[hidden], [hidden] { display:none !important; }
-  h1 { font-size:24px; margin:12px 0 6px; }
+  h1 { font:600 30px/1.15 var(--serif); margin:14px 0 6px; color:var(--fg); }
+  h1::after { content:""; display:block; width:56px; height:1px; margin-top:12px; background:var(--gold); }
   .sub, .m { color:var(--muted); font-size:14px; }
   form { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
-  input, button { font:inherit; padding:13px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--fg); width:100%; }
-  button.primary, form button { background:var(--accent); color:#fff; border:0; font-weight:600; }
+  input, button { font:inherit; padding:13px 18px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); width:100%; }
+  button.primary, form button { background:var(--accent); color:var(--on-accent); border:0; font-weight:600; min-height:48px; }
+  input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(180,134,42,.25); }
   button.plain { background:var(--card); color:var(--fg); border:1px solid var(--line); font-weight:400; }
-  .err { color:#c0392b; font-size:14px; min-height:1.2em; }
-  .hint { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-size:15px; margin-bottom:14px; }
+  .err { color:#b0301f; font-size:14px; min-height:1.2em; }
+  .hint { background:var(--card); border:1px solid var(--gold); border-radius:14px; padding:10px 14px; font-size:15px; margin-bottom:14px; }
   ul.list { list-style:none; padding:0; margin:14px 0 0; }
   ul.list li { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; cursor:pointer; }
   ul.list li .t { font-weight:600; }
@@ -39,24 +41,58 @@
   .qr { background:#fff; border-radius:16px; padding:10px; width:min(78vw, 300px); aspect-ratio:1; margin:18px auto 8px; display:flex; align-items:center; justify-content:center; color:#777; font-size:15px; }
   .qr svg { width:100%; height:100%; display:block; }
   .qr-tip { text-align:center; }
-  #v-site { position:fixed; inset:0; max-width:none; margin:0; padding:0; background:var(--bg); }
-  #site { position:absolute; left:0; right:0; bottom:0; top:env(safe-area-inset-top); width:100%; height:calc(100% - env(safe-area-inset-top)); border:0; background:#fff; }
-  #menu-btn { position:fixed; left:12px; bottom:calc(env(safe-area-inset-bottom) + 12px); width:46px; height:46px; padding:0; border-radius:50%; background:var(--accent); color:#fff; border:0; font-size:22px; opacity:.88; z-index:20; box-shadow:0 2px 8px rgba(0,0,0,.25); }
-  #menu { position:fixed; left:12px; bottom:calc(env(safe-area-inset-bottom) + 68px); z-index:20; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:6px; display:flex; flex-direction:column; min-width:200px; box-shadow:0 4px 18px rgba(0,0,0,.25); }
-  #menu button { background:none; color:var(--fg); border:0; text-align:left; padding:12px 14px; border-radius:10px; }
+  #v-site { position:fixed; inset:0; max-width:none; margin:0; padding:0; background:var(--bg); display:flex; flex-direction:column; }
+  body[data-doc="min"] #v-site { padding-bottom:calc(56px + env(safe-area-inset-bottom)); }
+  #topbar { flex:none; display:flex; align-items:center; gap:6px; padding:calc(env(safe-area-inset-top) + 4px) 8px 4px; background:var(--bg); border-bottom:1px solid var(--gold); min-height:calc(env(safe-area-inset-top) + 56px); }
+  #topbar button { width:auto; min-width:44px; min-height:44px; padding:0 12px; font-size:16px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:999px; font-weight:600; white-space:nowrap; }
+  #topbar #home-btn { background:var(--accent); color:var(--on-accent); border:0; }
+  #topbar #menu-btn { font-size:22px; padding:0 10px; }
+  #site-title { flex:1; min-width:0; text-align:center; font:600 18px/1.2 var(--serif); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--fg); }
+  #site { flex:1; width:100%; border:0; background:#fff; min-height:0; }
+  #menu { position:fixed; right:8px; top:calc(env(safe-area-inset-top) + 60px); z-index:20; background:var(--card); border:1px solid var(--gold); border-radius:16px; padding:6px; display:flex; flex-direction:column; min-width:210px; box-shadow:0 4px 18px rgba(0,0,0,.25); }
+  #menu button { background:none; color:var(--fg); border:0; text-align:left; padding:0 14px; min-height:44px; border-radius:10px; }
   #menu button:active { background:var(--bg); }
-  #banner { position:fixed; left:12px; right:12px; top:calc(env(safe-area-inset-top) + 8px); z-index:30; background:var(--accent); color:#fff; border-radius:12px; padding:11px 14px; font-size:15px; display:flex; gap:10px; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.3); }
+  #banner { position:fixed; left:12px; right:12px; top:calc(env(safe-area-inset-top) + 8px); z-index:40; background:var(--accent); color:var(--on-accent); border-radius:16px; padding:11px 14px; font-size:15px; display:flex; gap:10px; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.3); }
   #banner span { flex:1; }
-  #banner button { width:auto; padding:7px 12px; font-size:14px; background:#fff; color:var(--accent); border:0; font-weight:600; }
-  #pdf { position:fixed; inset:0; z-index:25; background:var(--bg); display:flex; flex-direction:column; padding-top:env(safe-area-inset-top); }
-  .pdf-bar { display:flex; gap:8px; padding:10px 12px; border-bottom:1px solid var(--line); }
-  .pdf-bar button { width:auto; padding:9px 14px; font-size:15px; }
-  #pdf-frame { flex:1; width:100%; border:0; background:#fff; }
+  #banner button { width:auto; min-height:44px; padding:7px 12px; font-size:14px; background:var(--on-accent); color:var(--accent); border:0; font-weight:600; }
+  /* окно документов: closed | open | max | min */
+  #doc { position:fixed; inset:0; z-index:25; }
+  #doc[data-state="open"] { background:rgba(40,30,12,.5); }
+  #doc[data-state="min"] { pointer-events:none; }
+  #doc-panel { position:absolute; display:flex; flex-direction:column; background:var(--paper); color:var(--paper-ink); overflow:hidden; }
+  #doc[data-state="open"] #doc-panel { left:max(14px, 4vw); right:max(14px, 4vw); top:calc(env(safe-area-inset-top) + 64px); bottom:calc(env(safe-area-inset-bottom) + 20px); border-radius:20px; border:1px solid var(--gold); box-shadow:0 14px 44px rgba(40,30,12,.45); }
+  #doc[data-state="max"] #doc-panel { inset:0; padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
+  #doc[data-state="min"] #doc-panel { display:none; }
+  .doc-bar { flex:none; display:flex; align-items:center; gap:6px; padding:6px 8px; border-bottom:1px solid var(--gold); }
+  #doc-title { flex:1; min-width:0; padding-left:8px; font:600 16px/1.2 var(--serif); color:var(--paper-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .doc-bar button, #doc-mini button { width:auto; min-width:44px; min-height:44px; padding:0 12px; font-size:15px; border-radius:999px; background:transparent; color:var(--paper-ink); border:1px solid var(--line); font-weight:600; white-space:nowrap; }
+  #doc-close, #doc-mini-close { background:var(--accent); color:var(--on-accent); border:0; }
+  @media (max-width:640px) { .doc-bar { flex-wrap:wrap; } #doc-title { flex:1 1 100%; } .doc-bar button { flex:1 1 auto; padding:0 8px; } }
+  #doc-body { flex:1; overflow:auto; -webkit-overflow-scrolling:touch; background:#6f6a5c; position:relative; }
+  #doc-body:not(.pdf) { background:var(--paper); color:var(--paper-ink); }
+  #doc-mini { position:fixed; left:8px; right:8px; bottom:calc(env(safe-area-inset-bottom) + 6px); height:50px; display:none; align-items:center; gap:6px; padding:3px 6px 3px 14px; background:var(--card); border:1px solid var(--gold); border-radius:999px; box-shadow:0 4px 16px rgba(40,30,12,.35); pointer-events:auto; }
+  #doc[data-state="min"] #doc-mini { display:flex; }
+  #doc-mini-name { flex:1; min-width:0; font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pdf-zoom { position:sticky; top:8px; z-index:2; display:flex; align-items:center; gap:6px; width:max-content; margin:8px 8px 0 auto; padding:4px 8px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.3); color:var(--fg); font-size:15px; }
+  .pdf-zoom button { width:44px; min-height:44px; padding:0; font-size:24px; border-radius:10px; background:var(--accent); color:var(--on-accent); border:0; }
+  .doc-img { display:block; width:100%; height:auto; }
+  .doc-text { margin:0; padding:16px; white-space:pre-wrap; overflow-wrap:anywhere; font:16px/1.5 ui-monospace, Menlo, monospace; }
+  .doc-docx { padding:16px; max-width:760px; margin:0 auto; font:18px/1.55 Georgia, serif; color:var(--paper-ink); }
+  .doc-docx p { margin:0 0 .8em; }
+  .doc-other { padding:28px 20px; }
+  .doc-other-name { font-weight:700; font-size:18px; overflow-wrap:anywhere; margin-bottom:8px; }
+  .icon-pick { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:-4px 0 16px; }
+  .icon-pick[hidden] { display:none; }
+  .icon-pick-t { flex-basis:100%; font-size:14px; color:var(--muted, inherit); }
+  .icon-pick button { width:auto; flex:0 0 auto; margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; min-width:96px; min-height:44px; padding:8px 10px; border-radius:16px; border:2px solid transparent; background:var(--card); font:600 14px/1.2 -apple-system, "Avenir Next", sans-serif; color:inherit; }
+  .icon-pick button img { width:64px; height:64px; border-radius:14px; }
+  .icon-pick button[aria-pressed="true"] { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,137,59,.18); }
 </style>
 </head>
 <body>
 <section id="v-setup" class="view" hidden>
   <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
+  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
   <h1>Ключи приложения Telegram</h1>
   <div class="sub">Один раз на этом устройстве. Хранятся только здесь и никуда не отправляются, кроме Telegram.</div>
   <form id="setup-form" autocomplete="off">
@@ -69,6 +105,7 @@
 
 <section id="v-qr" class="view" hidden>
   <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
+  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
   <h1>Вход в Telegram</h1>
   <div class="sub" id="qr-note"></div>
   <ol class="steps">
@@ -84,6 +121,7 @@
 
 <section id="v-login" class="view" hidden>
   <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
+  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
   <h1>Вход в Telegram</h1>
   <div class="sub" id="login-note">Так же, как вход в Telegram на новом устройстве: придёт код.</div>
   <form id="login-form" autocomplete="on">
@@ -108,20 +146,39 @@
 </section>
 
 <section id="v-site" class="view" hidden>
-  <iframe id="site" title="Счастье шить"></iframe>
-  <button id="menu-btn" type="button" aria-label="Меню">☰</button>
+  <header id="topbar">
+    <button id="back-btn" type="button" hidden>‹ Назад</button>
+    <button id="home-btn" type="button">Мои сайты</button>
+    <span id="site-title"></span>
+    <button id="menu-btn" type="button" aria-label="Меню">⋯</button>
+  </header>
+  <iframe id="site" title="Страницы курса"></iframe>
   <div id="menu" hidden>
     <button type="button" data-act="back">Назад</button>
     <button type="button" data-act="catalog">Каталог</button>
     <button type="button" data-act="refresh">Обновить</button>
+    <button type="button" data-act="icon">Значок на «Домой»</button>
     <button type="button" data-act="logout">Выйти и стереть</button>
   </div>
 </section>
 
 <div id="banner" hidden><span id="banner-text"></span><button id="banner-btn" type="button" hidden></button></div>
-<div id="pdf" hidden>
-  <div class="pdf-bar"><button id="pdf-close" type="button" class="primary">Закрыть</button><button id="pdf-open" type="button" class="plain">Открыть отдельно</button></div>
-  <iframe id="pdf-frame" title="PDF"></iframe>
+<div id="doc" hidden data-state="closed">
+  <div id="doc-panel" role="dialog" aria-label="Документ">
+    <div class="doc-bar">
+      <span id="doc-title"></span>
+      <button id="doc-share" type="button" hidden>Открыть отдельно</button>
+      <button id="doc-min" type="button">Свернуть</button>
+      <button id="doc-max" type="button">Развернуть</button>
+      <button id="doc-close" type="button">✕ Закрыть</button>
+    </div>
+    <div id="doc-body"></div>
+  </div>
+  <div id="doc-mini">
+    <span id="doc-mini-name"></span>
+    <button id="doc-mini-expand" type="button">Развернуть</button>
+    <button id="doc-mini-close" type="button" aria-label="Закрыть">✕</button>
+  </div>
 </div>
 <script src="app.js"></script>
 </body>
