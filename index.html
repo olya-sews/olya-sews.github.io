@@ -15,85 +15,146 @@
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>
-  :root { --bg:#fbf3da; --fg:#1c2a4f; --muted:#667089; --card:#fffbee; --line:#eadcb0; --accent:#2b4a7a; --on-accent:#fffaea; --gold:#b4862a; --paper:#fffbee; --paper-ink:#3a3331; --serif:"Didot","Bodoni 72","Baskerville","Georgia",serif; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0f1a36; --fg:#f6ebcb; --muted:#aab3cf; --card:#15244a; --line:#2a3b6a; --accent:#e0b95e; --on-accent:#16203a; --gold:#e0b95e; --paper:#172750; --paper-ink:#f6ebcb; } }
+  :root { --bg:#fbf3da; --fg:#1c2a4f; --muted:#667089; --card:#fffbee; --line:#eadcb0; --accent:#2b4a7a; --on-accent:#f7e3a6; --gold:#b4862a; --paper:#fffbee; --paper-ink:#3a3331; --shadow:rgba(60,40,10,.22); --glow:rgba(224,185,94,.20);
+    --serif:"Didot","Bodoni 72","Baskerville","Georgia",serif; --script:"Snell Roundhand","Baskerville","Georgia",serif; --sans:"Avenir Next","SF Pro Text",-apple-system,system-ui,sans-serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1a36; --fg:#f6ebcb; --muted:#aab3cf; --card:#15244a; --line:#2a3b6a; --accent:#e0b95e; --on-accent:#16203a; --gold:#e0b95e; --paper:#172750; --paper-ink:#f6ebcb; --shadow:rgba(0,0,0,.5); --glow:rgba(224,185,94,.14); } }
   * { box-sizing:border-box; }
   html, body { height:100%; }
-  body { margin:0; background:radial-gradient(900px 420px at 50% -120px, rgba(224,185,94,.16), transparent 70%), var(--bg); color:var(--fg); font:17px/1.45 -apple-system, "SF Pro Text", system-ui, sans-serif; }
-  .view { max-width:520px; margin:0 auto; padding:calc(env(safe-area-inset-top) + 20px) 18px 28px; }
+  html { background:var(--bg); }
+  body { margin:0; background:radial-gradient(900px 460px at 50% -140px, var(--glow), transparent 70%) no-repeat; color:var(--fg); font:17px/1.45 var(--sans); -webkit-text-size-adjust:100%; }
+  .view { max-width:540px; margin:0 auto; padding:calc(env(safe-area-inset-top) + 22px) 20px calc(env(safe-area-inset-bottom) + 32px); text-align:center; }
   .view[hidden], [hidden] { display:none !important; }
-  h1 { font:600 30px/1.15 var(--serif); margin:14px 0 6px; color:var(--fg); }
-  h1::after { content:""; display:block; width:56px; height:1px; margin-top:12px; background:var(--gold); }
-  .sub, .m { color:var(--muted); font-size:14px; }
-  form { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
-  input, button { font:inherit; padding:13px 18px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); width:100%; }
-  button.primary, form button { background:var(--accent); color:var(--on-accent); border:0; font-weight:600; min-height:48px; }
+  h1 { font:600 31px/1.12 var(--serif); margin:18px 0 6px; color:var(--fg); letter-spacing:.005em; }
+  h1 em, h2 em { font:400 1.12em/1 var(--script); color:var(--gold); letter-spacing:0; padding:0 .05em; }
+  h1::after, .ip-head h2::after { content:"\2726"; display:block; height:14px; margin:12px auto 0; max-width:200px; text-align:center; font:11px/14px var(--sans); color:var(--gold);
+    background:linear-gradient(90deg,transparent,var(--gold)) left center/calc(50% - 14px) 1px no-repeat, linear-gradient(270deg,transparent,var(--gold)) right center/calc(50% - 14px) 1px no-repeat; }
+  .sub, .m { color:var(--muted); font-size:15px; }
+  .sub { margin:12px auto 0; max-width:420px; }
+  /* обложка: выбранный значок в рамке-паспарту */
+  .cover { display:flex; justify-content:center; margin:8px 0 2px; }
+  .cover-img { width:104px; height:104px; border-radius:24px; display:block; border:1px solid var(--gold); background:var(--paper);
+    box-shadow:0 0 0 5px var(--paper), 0 0 0 6px var(--gold), 0 16px 34px var(--shadow); margin:6px; }
+  .view:has(.icon-pick:not([hidden])) .cover { display:none; }
+  /* форма — лист бумаги */
+  form { display:flex; flex-direction:column; gap:12px; margin-top:22px; padding:20px 18px 16px; text-align:left; background:var(--paper); border:1px solid var(--line); border-radius:22px;
+    box-shadow:inset 0 0 0 4px var(--paper), inset 0 0 0 5px var(--line), 0 12px 30px var(--shadow); }
+  label { font:600 12px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--accent); min-height:12px; }
+  @media (prefers-color-scheme: dark) { label { color:var(--gold); } }
+  input, button { font:inherit; padding:13px 18px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); width:100%; min-height:48px; }
+  input { border-radius:14px; background:var(--bg); font-size:17px; }
+  button { cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  button.primary, form button { background:var(--accent); color:var(--on-accent); border:0; font-weight:600; letter-spacing:.02em; min-height:50px; box-shadow:0 6px 16px var(--shadow); }
+  button:active { transform:scale(.985); }
   input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(180,134,42,.25); }
-  button.plain { background:var(--card); color:var(--fg); border:1px solid var(--line); font-weight:400; }
-  .err { color:#b0301f; font-size:14px; min-height:1.2em; }
-  .hint { background:var(--card); border:1px solid var(--gold); border-radius:14px; padding:10px 14px; font-size:15px; margin-bottom:14px; }
-  ul.list { list-style:none; padding:0; margin:14px 0 0; }
-  ul.list li { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; cursor:pointer; }
-  ul.list li .t { font-weight:600; }
-  .actions { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
-  .steps { margin:14px 0 0; padding-left:22px; font-size:16px; }
-  .steps li { margin-bottom:4px; }
-  .qr { background:#fff; border-radius:16px; padding:10px; width:min(78vw, 300px); aspect-ratio:1; margin:18px auto 8px; display:flex; align-items:center; justify-content:center; color:#777; font-size:15px; }
+  button.plain { background:transparent; color:var(--fg); border:1px solid var(--gold); font-weight:500; }
+  .err { color:#b0301f; font-size:14px; min-height:1.2em; text-align:center; }
+  @media (prefers-color-scheme: dark) { .err { color:#ff9d8a; } }
+  .actions { display:flex; flex-direction:column; gap:12px; margin-top:22px; }
+  /* шаги с номерами */
+  .steps { list-style:none; counter-reset:s; margin:20px 0 0; padding:0; text-align:left; font-size:16px; }
+  .steps li, .hint-steps li { counter-increment:s; position:relative; padding:4px 0 4px 44px; min-height:38px; margin-bottom:8px; display:block; line-height:1.4; }
+  .steps li::before, .hint-steps li::before { content:counter(s); position:absolute; left:0; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%; border:1px solid var(--gold); color:var(--gold); background:var(--paper); font:600 16px/28px var(--serif); text-align:center; }
+  /* QR в паспарту */
+  .qr { background:#fff; border-radius:20px; padding:14px; width:min(70vw, 300px); aspect-ratio:1; margin:26px auto 22px; display:flex; align-items:center; justify-content:center; color:#777; font-size:15px;
+    box-shadow:0 0 0 7px var(--paper), 0 0 0 8px var(--gold), 0 18px 40px var(--shadow); }
   .qr svg { width:100%; height:100%; display:block; }
-  .qr-tip { text-align:center; }
-  #v-site { position:fixed; inset:0; max-width:none; margin:0; padding:0; background:var(--bg); display:flex; flex-direction:column; }
-  body[data-doc="min"] #v-site { padding-bottom:calc(56px + env(safe-area-inset-bottom)); }
-  #topbar { flex:none; display:flex; align-items:center; gap:6px; padding:calc(env(safe-area-inset-top) + 4px) 8px 4px; background:var(--bg); border-bottom:1px solid var(--gold); min-height:calc(env(safe-area-inset-top) + 56px); }
-  #topbar button { width:auto; min-width:44px; min-height:44px; padding:0 12px; font-size:16px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:999px; font-weight:600; white-space:nowrap; }
-  #topbar #home-btn { background:var(--accent); color:var(--on-accent); border:0; }
-  #topbar #menu-btn { font-size:22px; padding:0 10px; }
-  #site-title { flex:1; min-width:0; text-align:center; font:600 18px/1.2 var(--serif); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--fg); }
+  .qr-tip { text-align:center; font-style:italic; font-family:var(--serif); }
+  /* выбор значка — витрина */
+  .icon-pick { margin:0 0 18px; padding:22px 14px 18px; background:var(--paper); border:1px solid var(--line); border-radius:26px; box-shadow:inset 0 0 0 5px var(--paper), inset 0 0 0 6px var(--line), 0 14px 34px var(--shadow); background-image:radial-gradient(420px 160px at 50% 0, var(--glow), transparent 75%); }
+  .ip-head h2 { font:600 29px/1.1 var(--serif); margin:2px 0 0; color:var(--fg); }
+  .ip-head p { margin:10px auto 0; max-width:340px; color:var(--muted); font-size:15px; }
+  .ip-row { display:flex; justify-content:center; gap:22px; margin-top:20px; }
+  .icon-pick button { all:unset; box-sizing:border-box; cursor:pointer; flex:1 1 0; max-width:170px; min-height:44px; display:flex; flex-direction:column; align-items:center; gap:14px; -webkit-tap-highlight-color:transparent; }
+  .ip-img { position:relative; display:block; width:100%; aspect-ratio:1; border-radius:22%; transition:transform .2s, opacity .2s, box-shadow .2s; opacity:.8; transform:scale(.93); box-shadow:0 0 0 1px var(--line), 0 8px 18px var(--shadow); }
+  .ip-img img { display:block; width:100%; height:100%; border-radius:22%; }
+  .ip-check { position:absolute; right:-8px; top:-8px; width:30px; height:30px; padding:6px; border-radius:50%; background:var(--gold); color:#fff; border:2px solid var(--paper); opacity:0; transform:scale(.4); transition:.2s; }
+  .ip-name { font:600 20px/1 var(--serif); color:var(--muted); }
+  .icon-pick button[aria-pressed="true"] .ip-img { opacity:1; transform:scale(1); box-shadow:0 0 0 4px var(--paper), 0 0 0 6px var(--gold), 0 16px 30px var(--shadow); }
+  .icon-pick button[aria-pressed="true"] .ip-check { opacity:1; transform:none; }
+  .icon-pick button[aria-pressed="true"] .ip-name { color:var(--fg); font-style:italic; }
+  /* подсказка про установку */
+  .hint { margin:0 0 30px; padding:16px 18px 8px; text-align:left; background:var(--paper); border:1px solid var(--gold); border-radius:20px; }
+  .hint-t { font:600 12px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; text-align:center; }
+  .hint-steps { list-style:none; counter-reset:s; margin:0; padding:0; font-size:16px; }
+  .hint-steps li { padding-top:5px; padding-bottom:5px; line-height:1.35; margin-bottom:6px; }
+  .hint-steps svg { width:22px; height:22px; vertical-align:-5px; margin:0 2px; color:var(--accent); }
+  @media (prefers-color-scheme: dark) { .hint-steps svg { color:var(--gold); } }
+  /* список групп */
+  ul.list { list-style:none; padding:0; margin:18px 0 0; text-align:left; }
+  ul.list li { position:relative; background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:13px 40px 13px 16px; margin-bottom:10px; cursor:pointer; min-height:56px; box-shadow:0 6px 16px var(--shadow); }
+  ul.list li::after { content:"\203A"; position:absolute; right:16px; top:50%; transform:translateY(-52%); color:var(--gold); font:400 28px/1 var(--serif); }
+  ul.list li:active { background:var(--bg); }
+  ul.list li .t { font:600 19px/1.25 var(--serif); }
+  #chat-q { margin-top:20px; border-radius:999px; background:var(--paper); }
+  /* сайт: верхняя полоса */
+  #v-site { position:fixed; inset:0; max-width:none; margin:0; padding:0; background:var(--bg); display:flex; flex-direction:column; text-align:left; }
+  body[data-doc="min"] #v-site { padding-bottom:calc(60px + env(safe-area-inset-bottom)); }
+  #topbar { position:relative; flex:none; display:flex; align-items:center; gap:8px; padding:calc(env(safe-area-inset-top) + 6px) 10px 6px; background:var(--bg); min-height:calc(env(safe-area-inset-top) + 58px); }
+  #topbar::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold) 14%,var(--gold) 86%,transparent); }
+  #topbar button { width:auto; min-width:44px; min-height:44px; padding:0 15px; font:500 15px/1 var(--sans); letter-spacing:.02em; background:transparent; color:var(--fg); border:1px solid var(--line); border-radius:999px; white-space:nowrap; box-shadow:none; }
+  #topbar #home-btn { background:var(--accent); color:var(--on-accent); border:0; font-weight:600; }
+  #topbar #menu-btn { font-size:22px; padding:0 14px; line-height:1; border-color:var(--gold); }
+  #site-title { flex:1; min-width:0; text-align:center; font:600 19px/1.2 var(--serif); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--fg); }
   #site { flex:1; width:100%; border:0; background:#fff; min-height:0; }
-  #menu { position:fixed; right:8px; top:calc(env(safe-area-inset-top) + 60px); z-index:20; background:var(--card); border:1px solid var(--gold); border-radius:16px; padding:6px; display:flex; flex-direction:column; min-width:210px; box-shadow:0 4px 18px rgba(0,0,0,.25); }
-  #menu button { background:none; color:var(--fg); border:0; text-align:left; padding:0 14px; min-height:44px; border-radius:10px; }
+  #menu { position:fixed; right:10px; top:calc(env(safe-area-inset-top) + 62px); z-index:20; background:var(--paper); border:1px solid var(--gold); border-radius:20px; padding:6px; display:flex; flex-direction:column; min-width:240px; box-shadow:0 16px 40px var(--shadow); }
+  #menu button { background:none; color:var(--fg); border:0; text-align:left; padding:0 16px; min-height:46px; border-radius:12px; font:500 17px/1 var(--sans); box-shadow:none; }
+  #menu button + button { border-top:1px solid var(--line); border-radius:0; }
+  #menu button:first-child { border-radius:14px 14px 0 0; } #menu button:last-child { border-radius:0 0 14px 14px; }
+  #menu button[data-act="logout"] { color:#b0301f; }
+  @media (prefers-color-scheme: dark) { #menu button[data-act="logout"] { color:#ff9d8a; } }
   #menu button:active { background:var(--bg); }
-  #banner { position:fixed; left:12px; right:12px; top:calc(env(safe-area-inset-top) + 8px); z-index:40; background:var(--accent); color:var(--on-accent); border-radius:16px; padding:11px 14px; font-size:15px; display:flex; gap:10px; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.3); }
+  #banner { position:fixed; left:12px; right:12px; top:calc(env(safe-area-inset-top) + 10px); z-index:40; max-width:560px; margin:0 auto; background:var(--accent); color:var(--on-accent); border-radius:18px; padding:10px 12px 10px 18px; font-size:15px; display:flex; gap:10px; align-items:center; box-shadow:inset 0 0 0 1px rgba(255,255,255,.18), 0 10px 26px rgba(0,0,0,.35); }
   #banner span { flex:1; }
-  #banner button { width:auto; min-height:44px; padding:7px 12px; font-size:14px; background:var(--on-accent); color:var(--accent); border:0; font-weight:600; }
+  #banner button { width:auto; min-height:44px; padding:7px 16px; font:600 14px/1 var(--sans); background:var(--on-accent); color:var(--accent); border:0; }
   /* окно документов: closed | open | max | min */
   #doc { position:fixed; inset:0; z-index:25; }
-  #doc[data-state="open"] { background:rgba(40,30,12,.5); }
+  #doc[data-state="open"] { background:rgba(30,22,8,.52); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); }
   #doc[data-state="min"] { pointer-events:none; }
   #doc-panel { position:absolute; display:flex; flex-direction:column; background:var(--paper); color:var(--paper-ink); overflow:hidden; }
-  #doc[data-state="open"] #doc-panel { left:max(14px, 4vw); right:max(14px, 4vw); top:calc(env(safe-area-inset-top) + 64px); bottom:calc(env(safe-area-inset-bottom) + 20px); border-radius:20px; border:1px solid var(--gold); box-shadow:0 14px 44px rgba(40,30,12,.45); }
+  #doc[data-state="open"] #doc-panel { left:max(14px, 4vw); right:max(14px, 4vw); top:calc(env(safe-area-inset-top) + 64px); bottom:calc(env(safe-area-inset-bottom) + 20px); border-radius:24px; border:1px solid var(--gold); box-shadow:0 0 0 5px var(--paper), 0 0 0 6px var(--gold), 0 24px 60px rgba(30,22,8,.55); }
   #doc[data-state="max"] #doc-panel { inset:0; padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
   #doc[data-state="min"] #doc-panel { display:none; }
-  .doc-bar { flex:none; display:flex; align-items:center; gap:6px; padding:6px 8px; border-bottom:1px solid var(--gold); }
-  #doc-title { flex:1; min-width:0; padding-left:8px; font:600 16px/1.2 var(--serif); color:var(--paper-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .doc-bar button, #doc-mini button { width:auto; min-width:44px; min-height:44px; padding:0 12px; font-size:15px; border-radius:999px; background:transparent; color:var(--paper-ink); border:1px solid var(--line); font-weight:600; white-space:nowrap; }
-  #doc-close, #doc-mini-close { background:var(--accent); color:var(--on-accent); border:0; }
+  .doc-bar { position:relative; flex:none; display:flex; align-items:center; gap:8px; padding:8px 12px; }
+  .doc-bar::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold) 12%,var(--gold) 88%,transparent); }
+  #doc-title { flex:1; min-width:0; padding-left:6px; font:600 18px/1.2 var(--serif); color:var(--paper-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .doc-bar button, #doc-mini button { width:auto; min-width:44px; min-height:44px; padding:0 15px; font:500 15px/1 var(--sans); border-radius:999px; background:transparent; color:var(--paper-ink); border:1px solid var(--line); white-space:nowrap; box-shadow:none; }
+  #doc-close, #doc-mini-close { background:var(--accent); color:var(--on-accent); border:0; font-weight:600; }
   @media (max-width:640px) { .doc-bar { flex-wrap:wrap; } #doc-title { flex:1 1 100%; } .doc-bar button { flex:1 1 auto; padding:0 8px; } }
   #doc-body { flex:1; overflow:auto; -webkit-overflow-scrolling:touch; background:#6f6a5c; position:relative; }
   #doc-body:not(.pdf) { background:var(--paper); color:var(--paper-ink); }
-  #doc-mini { position:fixed; left:8px; right:8px; bottom:calc(env(safe-area-inset-bottom) + 6px); height:50px; display:none; align-items:center; gap:6px; padding:3px 6px 3px 14px; background:var(--card); border:1px solid var(--gold); border-radius:999px; box-shadow:0 4px 16px rgba(40,30,12,.35); pointer-events:auto; }
+  #doc-mini { position:fixed; left:10px; right:10px; bottom:calc(env(safe-area-inset-bottom) + 8px); max-width:560px; margin:0 auto; height:52px; display:none; align-items:center; gap:6px; padding:3px 4px 3px 20px; background:var(--paper); border:1px solid var(--gold); border-radius:999px; box-shadow:0 10px 26px var(--shadow); pointer-events:auto; }
   #doc[data-state="min"] #doc-mini { display:flex; }
-  #doc-mini-name { flex:1; min-width:0; font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .pdf-zoom { position:sticky; top:8px; z-index:2; display:flex; align-items:center; gap:6px; width:max-content; margin:8px 8px 0 auto; padding:4px 8px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.3); color:var(--fg); font-size:15px; }
+  #doc-mini-name { flex:1; min-width:0; font:600 16px/1.2 var(--serif); color:var(--paper-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pdf-zoom { position:sticky; top:8px; z-index:2; display:flex; align-items:center; gap:6px; width:max-content; margin:8px 8px 0 auto; padding:4px 8px; background:var(--card); border:1px solid var(--gold); border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,.3); color:var(--fg); font-size:15px; }
   .pdf-zoom button { width:44px; min-height:44px; padding:0; font-size:24px; border-radius:10px; background:var(--accent); color:var(--on-accent); border:0; }
   .doc-img { display:block; width:100%; height:auto; }
-  .doc-text { margin:0; padding:16px; white-space:pre-wrap; overflow-wrap:anywhere; font:16px/1.5 ui-monospace, Menlo, monospace; }
-  .doc-docx { padding:16px; max-width:760px; margin:0 auto; font:18px/1.55 Georgia, serif; color:var(--paper-ink); }
+  .doc-text { margin:0; padding:16px; white-space:pre-wrap; overflow-wrap:anywhere; font:16px/1.5 ui-monospace, Menlo, monospace; text-align:left; }
+  .doc-docx { padding:16px; max-width:760px; margin:0 auto; font:18px/1.55 Georgia, serif; color:var(--paper-ink); text-align:left; }
   .doc-docx p { margin:0 0 .8em; }
-  .doc-other { padding:28px 20px; }
-  .doc-other-name { font-weight:700; font-size:18px; overflow-wrap:anywhere; margin-bottom:8px; }
-  .icon-pick { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:-4px 0 16px; }
-  .icon-pick[hidden] { display:none; }
-  .icon-pick-t { flex-basis:100%; font-size:14px; color:var(--muted, inherit); }
-  .icon-pick button { width:auto; flex:0 0 auto; margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; min-width:96px; min-height:44px; padding:8px 10px; border-radius:16px; border:2px solid transparent; background:var(--card); font:600 14px/1.2 -apple-system, "Avenir Next", sans-serif; color:inherit; }
-  .icon-pick button img { width:64px; height:64px; border-radius:14px; }
-  .icon-pick button[aria-pressed="true"] { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,137,59,.18); }
+  .doc-other { padding:28px 20px; text-align:left; }
+  .doc-other-name { font:600 20px/1.3 var(--serif); overflow-wrap:anywhere; margin-bottom:8px; }
+  @media (min-width:700px) {
+    .view { padding-top:calc(env(safe-area-inset-top) + 44px); }
+    .cover-img { width:132px; height:132px; border-radius:30px; }
+    h1 { font-size:38px; }
+    .ip-head h2 { font-size:34px; }
+    .ip-row { gap:34px; } .icon-pick button { max-width:190px; }
+    .icon-pick { padding:28px 24px 24px; }
+    .ip-name { font-size:22px; }
+  }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M12 14.5V3.5M8.2 7.2 12 3.4l3.8 3.8M8 10H6.6A1.6 1.6 0 0 0 5 11.6v7.3A1.6 1.6 0 0 0 6.6 20.5h10.8a1.6 1.6 0 0 0 1.6-1.6v-7.3A1.6 1.6 0 0 0 17.4 10H16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.2v7.6M8.2 12h7.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.6l4.6 4.6L19 7.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
 <section id="v-setup" class="view" hidden>
-  <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
-  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
-  <h1>Ключи приложения Telegram</h1>
+  <div class="icon-pick" data-ios-hint hidden><div class="ip-head"><h2>Выбери <em>значок</em></h2><p>Он поселится на экране «Домой». Выбирай до «Поделиться».</p></div><div class="ip-row"><button type="button" data-icon="b" aria-pressed="true"><span class="ip-img"><img src="icon-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Витрина</span></button><button type="button" data-icon="c" aria-pressed="false"><span class="ip-img"><img src="icon-c-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Машинка</span></button></div></div>
+  <div class="hint" data-ios-hint hidden><div class="hint-t">Три шага</div><ol class="hint-steps"><li>Нажми <svg aria-hidden="true"><use href="#i-share"/></svg> <b>«Поделиться»</b> в Safari.</li><li>Выбери <svg aria-hidden="true"><use href="#i-plus"/></svg> <b>«На экран «Домой»»</b>.</li><li>Открой новый значок и войди — уже в нём.</li></ol></div>
+  <div class="cover" aria-hidden="true"><img class="cover-img" src="icon-512.png" alt="" width="132" height="132"></div>
+  <h1>Ключи <em>Telegram</em></h1>
   <div class="sub">Один раз на этом устройстве. Хранятся только здесь и никуда не отправляются, кроме Telegram.</div>
   <form id="setup-form" autocomplete="off">
     <input id="api-id" inputmode="numeric" placeholder="api_id" autocomplete="off">
@@ -104,9 +165,10 @@
 </section>
 
 <section id="v-qr" class="view" hidden>
-  <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
-  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
-  <h1>Вход в Telegram</h1>
+  <div class="icon-pick" data-ios-hint hidden><div class="ip-head"><h2>Выбери <em>значок</em></h2><p>Он поселится на экране «Домой». Выбирай до «Поделиться».</p></div><div class="ip-row"><button type="button" data-icon="b" aria-pressed="true"><span class="ip-img"><img src="icon-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Витрина</span></button><button type="button" data-icon="c" aria-pressed="false"><span class="ip-img"><img src="icon-c-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Машинка</span></button></div></div>
+  <div class="hint" data-ios-hint hidden><div class="hint-t">Три шага</div><ol class="hint-steps"><li>Нажми <svg aria-hidden="true"><use href="#i-share"/></svg> <b>«Поделиться»</b> в Safari.</li><li>Выбери <svg aria-hidden="true"><use href="#i-plus"/></svg> <b>«На экран «Домой»»</b>.</li><li>Открой новый значок и войди — уже в нём.</li></ol></div>
+  <div class="cover" aria-hidden="true"><img class="cover-img" src="icon-512.png" alt="" width="132" height="132"></div>
+  <h1>Вход в <em>Telegram</em></h1>
   <div class="sub" id="qr-note"></div>
   <ol class="steps">
     <li>На телефоне открой Telegram → <b>Настройки</b> → <b>Устройства</b>.</li>
@@ -120,9 +182,10 @@
 </section>
 
 <section id="v-login" class="view" hidden>
-  <div class="hint" data-ios-hint hidden>Чтобы значок открывался как приложение: «Поделиться» → «На экран «Домой»», потом открой значок и войди там.</div>
-  <div class="icon-pick" data-ios-hint hidden><span class="icon-pick-t">Какой значок поставить на «Домой» — выбери до «Поделиться»:</span><button type="button" data-icon="b" aria-pressed="true"><img src="icon-pick-b.png" alt="" width="64" height="64">Витрина</button><button type="button" data-icon="c" aria-pressed="false"><img src="icon-pick-c.png" alt="" width="64" height="64">Машинка</button></div>
-  <h1>Вход в Telegram</h1>
+  <div class="icon-pick" data-ios-hint hidden><div class="ip-head"><h2>Выбери <em>значок</em></h2><p>Он поселится на экране «Домой». Выбирай до «Поделиться».</p></div><div class="ip-row"><button type="button" data-icon="b" aria-pressed="true"><span class="ip-img"><img src="icon-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Витрина</span></button><button type="button" data-icon="c" aria-pressed="false"><span class="ip-img"><img src="icon-c-180.png" alt="" width="180" height="180"><svg class="ip-check" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ip-name">Машинка</span></button></div></div>
+  <div class="hint" data-ios-hint hidden><div class="hint-t">Три шага</div><ol class="hint-steps"><li>Нажми <svg aria-hidden="true"><use href="#i-share"/></svg> <b>«Поделиться»</b> в Safari.</li><li>Выбери <svg aria-hidden="true"><use href="#i-plus"/></svg> <b>«На экран «Домой»»</b>.</li><li>Открой новый значок и войди — уже в нём.</li></ol></div>
+  <div class="cover" aria-hidden="true"><img class="cover-img" src="icon-512.png" alt="" width="132" height="132"></div>
+  <h1>Вход в <em>Telegram</em></h1>
   <div class="sub" id="login-note">Так же, как вход в Telegram на новом устройстве: придёт код.</div>
   <form id="login-form" autocomplete="on">
     <label id="login-label"></label>
@@ -133,13 +196,15 @@
 </section>
 
 <section id="v-chats" class="view" hidden>
-  <h1>В какой группе курс?</h1>
+    <div class="cover" aria-hidden="true"><img class="cover-img" src="icon-512.png" alt="" width="132" height="132"></div>
+  <h1>В какой <em>группе</em> курс?</h1>
   <div class="sub">Выбери один раз — дальше значок запомнит.</div>
-  <input id="chat-q" type="search" placeholder="Поиск по названию" autocomplete="off" autocapitalize="off" spellcheck="false" style="margin-top:12px">
+  <input id="chat-q" type="search" placeholder="Поиск по названию" autocomplete="off" autocapitalize="off" spellcheck="false">
   <ul id="chats" class="list"></ul>
 </section>
 
 <section id="v-msg" class="view" hidden>
+    <div class="cover" aria-hidden="true"><img class="cover-img" src="icon-512.png" alt="" width="132" height="132"></div>
   <h1 id="msg-title"></h1>
   <div class="sub" id="msg-text"></div>
   <div class="actions" id="msg-actions"></div>
